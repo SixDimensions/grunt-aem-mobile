@@ -31,9 +31,7 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     dps: {
       options: {
-        config: {
-          
-        }
+        config: grunt.file.readJSON('credentials.json')
       },
       main: {
         options: {

@@ -66,18 +66,9 @@ function getAccessToken(api, callback) {
     }
   )
   .on('complete', function(data) {
-    // add data to config
-    api.access_token = data.access_token;
-    api.refresh_token = data.refresh_token;
-    api.expires_in = data.expires_in;
-    api.token_time = Date.now();
-    // save config back to file
-    jsonfile.writeFile('api.json', api, {spaces: 2}, function(err) {
-      console.log('Access token retrieved');
-      if (callback) {
-        callback();
-      }
-    });
+    if (callback) {
+      callback(data);
+    }
   });
 }
 function uploadArticle(api, articleId, fileName, callback) {

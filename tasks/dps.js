@@ -26,8 +26,19 @@ module.exports = function(grunt) {
     var deferred = Q.defer();
     var promise = deferred.promise;
 
-    // PUT article
+    // access token
     promise.then(function(api) {
+      var deferred = Q.defer();
+      if (typeof options.config.access_token === 'undefined') {
+        dpsUtils.getAccessToken(api, function(data) {
+          api.access_token = data.access_token;
+          deferred.resolve(api);
+        });
+      }
+      return deferred.promise;
+    })
+    // PUT article
+    .then(function(api) {
       var deferred = Q.defer();
       if (typeof options.putArticle === 'undefined') {
         deferred.resolve(api);
