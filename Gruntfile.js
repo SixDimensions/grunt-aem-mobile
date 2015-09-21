@@ -32,15 +32,7 @@ module.exports = function(grunt) {
     dps: {
       options: {
         config: {
-          "publication_id": "cd9463b5-a779-4a32-b488-462ffa1cf17a",
-          "device_id": "***REMOVED***",
-          "device_secret": "***REMOVED***",
-          "client_id": "***REMOVED***",
-          "client_secret": "***REMOVED***",
-          "access_token": "***REMOVED***",
-          "refresh_token": "***REMOVED***",
-          "expires_in": 86399986,
-          "token_time": 1442850671114
+          
         }
       },
       main: {
