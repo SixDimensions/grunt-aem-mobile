@@ -35,6 +35,9 @@ module.exports = function(grunt) {
           deferred.resolve(api);
         });
       }
+      else {
+        deferred.resolve(api);
+      }
       return deferred.promise;
     })
     // PUT article
