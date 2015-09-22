@@ -35,9 +35,9 @@ module.exports = function(grunt) {
       },
       main: {
         options: {
-          /*putArticle: {
+          putArticle: {
             entityName: 'completelynew',
-            title: 'what??'
+            title: 'New Article'
           },
           putArticleImage: {
             entityName: 'completelynew',
@@ -45,8 +45,8 @@ module.exports = function(grunt) {
           },
           uploadArticle: {
             entityName: 'completelynew',
-            articlePath: 'login.article'
-          },*/
+            articlePath: 'test.article'
+          },
           addArticleToCollection: {
             articleName: 'completelynew',
             collectionName: 'Itineraries'
