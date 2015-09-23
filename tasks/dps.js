@@ -54,7 +54,7 @@ module.exports = function(grunt) {
           else {
             article = _.merge(article, options.putArticle);
           }
-          dpsUtils.putArticle(api, article, function(article) {
+          dpsUtils.putArticle(api, article, function(response) {
             console.log('Article '+article.entityName+' was updated.');
             deferred.resolve(api);
           });
