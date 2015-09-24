@@ -9,15 +9,6 @@ var mimetypes = {
 };
 var sessionId = uuid.v4();
 
-function readApiFile(callback) {
-  jsonfile.readFile('api.json', function(err, api) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    callback(api);
-  });
-}
 function standardHeaders(api, options) {
   var headers = {
     "X-DPS-Client-Version": api.client_id+'_0.0.1',
