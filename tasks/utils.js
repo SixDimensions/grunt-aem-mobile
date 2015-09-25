@@ -1,5 +1,4 @@
 var rest = require('restler');
-var jsonfile = require('jsonfile');
 var uuid = require('node-uuid');
 var fs = require('fs');
 var _ = require('lodash');
