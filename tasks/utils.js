@@ -251,7 +251,6 @@ function uploadWrapper(api, articleId) {
 }
 
 module.exports = {
-  readApiFile: readApiFile,
   standardHeaders: standardHeaders,
   getAccessToken: getAccessToken,
   uploadArticle: uploadArticle,
