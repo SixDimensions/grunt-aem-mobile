@@ -166,6 +166,9 @@ function addArticleToCollection(api, articleId, collectionId, callback) {
             contentElements.splice(i, 1);
           }
         }
+        if (typeof contentElements === 'undefined' || typeof contentElements.length === 'undefined') {
+          contentElements = [];
+        }
         contentElements.push( { href: '/publication/'+api.publication_id+'/article/'+article.entityName+';version='+article.version } );
         request(api, 
           'put', 
