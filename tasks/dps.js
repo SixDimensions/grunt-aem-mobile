@@ -36,6 +36,7 @@ module.exports = function(grunt) {
         });
       }
       else {
+        console.log('Using provided access_token');
         deferred.resolve(api);
       }
       return deferred.promise;
