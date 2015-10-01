@@ -32,6 +32,9 @@ function request(api, type, url, options, callback) {
     _.merge(defaultOptions, options)
   )
   .on('complete', function(data, other) {
+    if (typeof data.error_code !== "undefined") {
+      throw new Error(data.error_code + " " + data.message);
+    }
     if (callback) {
       callback(data, other);
     }
@@ -227,29 +230,6 @@ function putArticleImage(api, article, imagePath, callback) {
         });
       });
     });
-  });
-}
-function uploadWrapper(api, articleId) {
-  getArticle(api, articleId, function(data) {
-    // function to actually upload the article image and .article file
-    function doUpload(data) {
-      putArticleImage(api, data, 'creativecloud_small.png', function(data) {
-        console.log(data);
-        uploadArticle(api, articleId, function(data) {
-          console.log(data);
-        });
-      });
-    }
-    if (data.code === 'EntityNotFoundException') {
-      // create the article if it doesnt exist
-      putArticle(api, { entityName: articleId }, function(data) {
-        // now that it's created, put data into the doUpload process
-        getArticle(api, articleId, doUpload);
-      });
-    }
-    else {
-      doUpload(data);
-    }
   });
 }
 
