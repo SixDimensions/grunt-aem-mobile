@@ -155,10 +155,7 @@ function putArticle(api, data, callback) {
 function addArticleToCollection(api, articleId, collectionId, callback) {
   getCollection(api, collectionId, function(collection) {
     if (collection.code === 'EntityNotFoundException') {
-      if (callback) {
-        callback(collection);
-      }
-      return;
+      throw new Error("Collection " + collectionId + " not found.");
     }
     getCollectionElements(api, collection, function(contentElements) {
       getArticle(api, articleId, function(article) {
