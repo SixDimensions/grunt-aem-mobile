@@ -10,7 +10,7 @@ var sessionId = uuid.v4();
 
 function standardHeaders(api, options) {
   var headers = {
-    "X-DPS-Client-Version": api.client_id+'_0.0.1',
+    "X-DPS-Client-Version": '0.0.1',
     'X-DPS-Client-Id': api.client_id,
     "X-DPS-Client-Request-Id": uuid.v4(),
     "X-DPS-Client-Session-Id": sessionId,
@@ -150,15 +150,27 @@ function putArticle(api, data, callback) {
       'Content-Type': 'application/json'
     }
   };
-  request(api, 'put', url, requestOptions, callback);
+  request(api, 'put', url, requestOptions, function(response) {
+    if (typeof response.code !== "undefined" && response.code.indexOf("Exception") > -1) {
+      throw new Error(response.message + " (" + response.code + ")");
+    }
+    callback(response);
+  });
 }
 function addArticleToCollection(api, articleId, collectionId, callback) {
   getCollection(api, collectionId, function(collection) {
     if (collection.code === 'EntityNotFoundException') {
       throw new Error("Collection " + collectionId + " not found.");
     }
+    if (typeof collection.code !== "undefined" && collection.code.indexOf("Exception") > -1) {
+      throw new Error(collection.message + " (" + collection.code + ")");
+    }
+    callback(response);
     getCollectionElements(api, collection, function(contentElements) {
       getArticle(api, articleId, function(article) {
+        if (typeof article.code !== "undefined" && article.code.indexOf("Exception") > -1) {
+          throw new Error(article.message + " (" + article.code + ")");
+        }
         // remove previous versions of the article if they exist
 
         for(var i = 0; i < contentElements.length; i++) {
@@ -203,10 +215,16 @@ function putArticleImage(api, article, imagePath, callback) {
   .on('complete', function(data, response) {
     // get the most up to date article data
     getArticle(api, article.entityName, function(article) {
+      if (typeof article.code !== "undefined" && article.code.indexOf("Exception") > -1) {
+        throw new Error(article.message + " (" + article.code + ")");
+      }
       // add the reference to the content we just created
       article['_links']['thumbnail'] = { href: 'contents/images/thumbnail'};
       // save it to the article
       putArticle(api, article, function(data) {
+        if (typeof data.code !== "undefined" && data.code.indexOf("Exception") > -1) {
+          throw new Error(data.message + " (" + data.code + ")");
+        }
         // get the new version for the article
         getArticle(api, article.entityName, function(article) {
           // seal() the image upload
@@ -220,6 +238,9 @@ function putArticleImage(api, article, imagePath, callback) {
             }
           )
           .on('complete', function(data, other) {
+            if (typeof data.code !== "undefined" && data.code.indexOf("Exception") > -1) {
+              throw new Error(data.message + " (" + data.code + ")");
+            }
             if (callback) {
               callback(data);
             }
