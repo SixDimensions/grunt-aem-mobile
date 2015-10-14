@@ -26,7 +26,7 @@ module.exports = function(grunt) {
     var deferred = Q.defer();
     var promise = deferred.promise;
 
-    // access token
+    // retrieve access token
     promise.then(function(api) {
       var deferred = Q.defer();
       if (typeof options.config.access_token === 'undefined') {
@@ -122,7 +122,6 @@ module.exports = function(grunt) {
         deferred.resolve(api);
       }
       else {
-
         dpsUtils.publish(api, options.publish.entities, function(result) {
           if (result.code === 'EntityNotFoundException') {
             deferred.reject(new Error('Entity was not found'));
@@ -134,11 +133,10 @@ module.exports = function(grunt) {
       }
       return deferred.promise;
     })
-    .then(function(api) {
-      console.log('done');
+    .then(function() {
       done();
     }).catch(function (error) {
-      console.log('error: ' + error);
+      console.log('Error: ' + error);
       done(false);
     });
     deferred.resolve(options.config);
