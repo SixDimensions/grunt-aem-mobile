@@ -8,10 +8,11 @@
 
 'use strict';
 
-var dpsUtils = require('./utils.js');
+var dpsUtils;
 var Q = require('q');
 var _ = require('lodash');
 var path = require('path');
+var AdobeDPSAPI = require('AdobeDPSAPI-js');
 
 module.exports = function(grunt) {
 
@@ -26,109 +27,123 @@ module.exports = function(grunt) {
     var deferred = Q.defer();
     var promise = deferred.promise;
 
+    var dpsUtils = new AdobeDPSAPI(options.config);
     // retrieve access token
-    promise.then(function(api) {
+    promise.then(function() {
       var deferred = Q.defer();
       if (typeof options.config.access_token === 'undefined') {
-        dpsUtils.getAccessToken(api, function(data) {
-          api.access_token = data.access_token;
-          deferred.resolve(api);
+        dpsUtils.getAccessToken(function(data) {
+          dpsUtils.credentials.access_token = data.access_token;
+          deferred.resolve();
         });
       }
       else {
         console.log('Using provided access_token');
-        deferred.resolve(api);
+        deferred.resolve();
+      }
+      return deferred.promise;
+    })
+    // get publications/applications
+    .then(function() {
+      var deferred = Q.defer();
+      if (typeof options.getPublications === 'undefined') {
+        deferred.resolve();
+      }
+      else {
+        dpsUtils.getPublications(function(publications) {
+          console.log(publications);
+        });
       }
       return deferred.promise;
     })
     // PUT article
-    .then(function(api) {
+    .then(function() {
       var deferred = Q.defer();
       if (typeof options.putArticle === 'undefined') {
-        deferred.resolve(api);
+        deferred.resolve();
       }
       else {
-        dpsUtils.getArticle(api, options.putArticle.entityName, function(article) {
+        dpsUtils.getArticle(options.putArticle.entityName, function(article) {
           if (article.code === 'EntityNotFoundException') {
             article = options.putArticle;
           }
           else {
             article = _.merge(article, options.putArticle);
           }
-          dpsUtils.putArticle(api, article, function(response) {
+          dpsUtils.putArticle(article, function(response) {
             console.log('Article '+article.entityName+' was updated.');
-            deferred.resolve(api);
+            deferred.resolve();
           });
         });
       }
       return deferred.promise;
     })
     // PUT article image
-    .then(function(api) {
+    .then(function() {
       var deferred = Q.defer();
       if (typeof options.putArticleImage === 'undefined') {
-        deferred.resolve(api);
+        deferred.resolve();
       }
       else {
-        dpsUtils.getArticle(api, options.putArticleImage.entityName, function(article) {
+        dpsUtils.getArticle(options.putArticleImage.entityName, function(article) {
           if (article.code === 'EntityNotFoundException') {
             deferred.reject(new Error('Entity was not found'));
             return;
           }
-          dpsUtils.putArticleImage(api, article, path.resolve(options.putArticleImage.imagePath), function(result) {
+          dpsUtils.putArticleImage(article, path.resolve(options.putArticleImage.imagePath), function(result) {
             console.log('Article Image for '+result.entityName+' was uploaded and sealed.');
-            deferred.resolve(api);
+            deferred.resolve();
           });
         });
       }
       return deferred.promise;
     })
     // PUT article file
-    .then(function(api) {
+    .then(function() {
       var deferred = Q.defer();
       if (typeof options.uploadArticle === 'undefined') {
-        deferred.resolve(api);
+        deferred.resolve();
       }
       else {
-        dpsUtils.uploadArticle(api, options.uploadArticle.entityName, options.uploadArticle.articlePath, function(result) {
+        dpsUtils.uploadArticle(options.uploadArticle.entityName, options.uploadArticle.articlePath, function(result) {
           console.log('Article file for '+options.uploadArticle.entityName+' uploaded.');
-          deferred.resolve(api);
+          deferred.resolve();
         });
       }
       return deferred.promise;
     })
     // PUT article into collection
-    .then(function(api) {
+    .then(function() {
       var deferred = Q.defer();
       if (typeof options.addArticleToCollection === 'undefined') {
-        deferred.resolve(api);
+        deferred.resolve();
       }
       else {
-        dpsUtils.addArticleToCollection(api, options.addArticleToCollection.articleName, options.addArticleToCollection.collectionName, function(result) {
+        dpsUtils.addArticleToCollection(options.addArticleToCollection.articleName, options.addArticleToCollection.collectionName, function(result) {
           if (result.code === 'EntityNotFoundException') {
             deferred.reject(new Error('Entity was not found'));
             return;
           }
           console.log('Article '+options.addArticleToCollection.articleName+' added to the '+options.addArticleToCollection.collectionName+' collection.');
-          deferred.resolve(api);
+          deferred.resolve();
         });
       }
       return deferred.promise;
     })
     // publish
-    .then(function(api) {
+    .then(function() {
       var deferred = Q.defer();
       if (typeof options.publish === 'undefined') {
-        deferred.resolve(api);
+        deferred.resolve();
       }
       else {
-        dpsUtils.publish(api, options.publish.entities, function(result) {
+        dpsUtils.publish(options.publish.entities, function(result) {
           if (result.code === 'EntityNotFoundException') {
             deferred.reject(new Error('Entity was not found'));
             return;
           }
           console.log('Entities '+options.publish.entities+' were published.');
-          deferred.resolve(api);
+          deferred.resolve();
         });
       }
       return deferred.promise;
