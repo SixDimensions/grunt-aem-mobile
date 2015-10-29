@@ -119,14 +119,29 @@ module.exports = function(grunt) {
         deferred.resolve();
       }
       else {
-        dpsUtils.addArticleToCollection(options.addArticleToCollection.articleName, options.addArticleToCollection.collectionName, function(result) {
-          if (result.code === 'EntityNotFoundException') {
-            deferred.reject(new Error('Entity was not found'));
-            return;
+        var outstandingRequests = 0;
+        var __performAddArticleToCollection = function(collectionName) {
+          dpsUtils.addArticleToCollection(options.addArticleToCollection.articleName, collectionName, function(result) {
+            if (result.code === 'EntityNotFoundException') {
+              deferred.reject(new Error('Entity was not found'));
+              return;
+            }
+            console.log('Article '+options.addArticleToCollection.articleName+' added to the '+collectionName+' collection.');
+            outstandingRequests--;
+            if (outstandingRequests <= 0) {
+              deferred.resolve();
+            }
+          });
+        };
+        if (Array.isArray(options.addArticleToCollection.collectionName)) {
+          outstandingRequests = options.addArticleToCollection.collectionName.length;
+          for(var i = 0; i < options.addArticleToCollection.collectionName.length; i++) {
+            __performAddArticleToCollection(options.addArticleToCollection.collectionName[i]);
           }
-          console.log('Article '+options.addArticleToCollection.articleName+' added to the '+options.addArticleToCollection.collectionName+' collection.');
-          deferred.resolve();
-        });
+        }
+        else {
+          __performAddArticleToCollection(options.addArticleToCollection.collectionName);
+        }
       }
       return deferred.promise;
     })

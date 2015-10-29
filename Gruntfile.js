@@ -49,7 +49,7 @@ module.exports = function(grunt) {
           },
           addArticleToCollection: {
             articleName: 'completelynew',
-            collectionName: 'Itineraries'
+            collectionName: ['Itineraries', 'topLevelPhoneContent']
           },
           publish: {
             entities: [
