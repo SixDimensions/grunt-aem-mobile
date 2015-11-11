@@ -12,7 +12,7 @@ var dpsUtils;
 var Q = require('q');
 var _ = require('lodash');
 var path = require('path');
-var AdobeDPSAPI = require('AdobeDPSAPI-js');
+var AdobeDPSAPI = require('adobedpsapi-js');
 
 module.exports = function(grunt) {
 
