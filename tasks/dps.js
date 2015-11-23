@@ -133,13 +133,29 @@ module.exports = function(grunt) {
             }
           });
         };
+        var collections = options.addArticleToCollection.collectionName;
         if (!Array.isArray(options.addArticleToCollection.collectionName)) {
-          var collections = options.addArticleToCollection.collectionName.split(",");
+          collections = options.addArticleToCollection.collectionName.split(",");
           collections.forEach(function(str, i, arr){ arr[i] = str.trim(); });
         }
         outstandingRequests = options.addArticleToCollection.collectionName.length;
-        for(var i = 0; i < options.addArticleToCollection.collectionName.length; i++) {
-          __performAddArticleToCollection(options.addArticleToCollection.collectionName[i]);
+        if (outstandingRequests <= 0) {
+          deferred.resolve();
+        }
+        else {
+          console.log(collections);
+          for(var i = 0; i < collections.length; i++) {
+            if (collections[i] && collections[i].length > 0) {
+              __performAddArticleToCollection(collections[i]);  
+            }
+            else {
+              console.log('Collection name '+collections[i]+' is not valid');
+              outstandingRequests--;
+              if (outstandingRequests <= 0) {
+                deferred.resolve();
+              }
+            }
+          }  
         }
       }
       
