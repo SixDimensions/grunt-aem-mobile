@@ -1,7 +1,7 @@
 {
   "name": "grunt-dps",
   "description": "Grunt automation for Adobe DPS 2015 api tasks.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "homepage": "https://github.com/SixDimensions/grunt-dps",
   "author": {
     "name": "Charlie Wagner",

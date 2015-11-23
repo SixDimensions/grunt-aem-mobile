@@ -167,12 +167,29 @@ module.exports = function(grunt) {
         deferred.resolve();
       }
       else {
-        dpsUtils.publish(options.publish.entities, function(result) {
+        var entities = options.publish.entities;
+        // cut out the junk
+        for (var i = 0; i < entities.length; i++) {
+          if (entities[i]) {
+            entities[i] = entities[i].trim();
+            if (!entities[i] || entities[i].length <= 0) {
+              entities.splice(i,1); i--; continue; // remove
+            }
+            var tmp = entities[i].replace("collection/","").replace("article/","").trim();
+            if (!tmp || tmp.length <= 0) {
+              entities.splice(i,1); i--; continue; // remove
+            }
+          }
+          else {
+            entities.splice(i,1); i--; continue; // remove
+          }
+        }
+        dpsUtils.publish(entities, function(result) {
           if (result.code === 'EntityNotFoundException') {
             deferred.reject(new Error('Entity was not found'));
             return;
           }
-          console.log('Entities '+options.publish.entities+' were published.');
+          console.log('Entities '+entities+' were published.');
           deferred.resolve();
         });
       }
