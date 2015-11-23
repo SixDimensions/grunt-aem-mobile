@@ -134,11 +134,11 @@ module.exports = function(grunt) {
           });
         };
         var collections = options.addArticleToCollection.collectionName;
-        if (!Array.isArray(options.addArticleToCollection.collectionName)) {
-          collections = options.addArticleToCollection.collectionName.split(",");
+        if (!Array.isArray(collections)) {
+          collections = collections.split(",");
           collections.forEach(function(str, i, arr){ arr[i] = str.trim(); });
         }
-        outstandingRequests = options.addArticleToCollection.collectionName.length;
+        outstandingRequests = collections.length;
         if (outstandingRequests <= 0) {
           deferred.resolve();
         }
@@ -148,7 +148,7 @@ module.exports = function(grunt) {
               __performAddArticleToCollection(collections[i]);  
             }
             else {
-              console.log('Collection name '+collections[i]+' is not valid');
+              console.log('Collection name "'+collections[i]+'" is not valid');
               outstandingRequests--;
               if (outstandingRequests <= 0) {
                 deferred.resolve();
