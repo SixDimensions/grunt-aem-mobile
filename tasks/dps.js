@@ -133,16 +133,16 @@ module.exports = function(grunt) {
             }
           });
         };
-        if (Array.isArray(options.addArticleToCollection.collectionName)) {
-          outstandingRequests = options.addArticleToCollection.collectionName.length;
-          for(var i = 0; i < options.addArticleToCollection.collectionName.length; i++) {
-            __performAddArticleToCollection(options.addArticleToCollection.collectionName[i]);
-          }
+        if (!Array.isArray(options.addArticleToCollection.collectionName)) {
+          var collections = options.addArticleToCollection.collectionName.split(",");
+          collections.forEach(function(str, i, arr){ arr[i] = str.trim(); });
         }
-        else {
-          __performAddArticleToCollection(options.addArticleToCollection.collectionName);
+        outstandingRequests = options.addArticleToCollection.collectionName.length;
+        for(var i = 0; i < options.addArticleToCollection.collectionName.length; i++) {
+          __performAddArticleToCollection(options.addArticleToCollection.collectionName[i]);
         }
       }
+      
       return deferred.promise;
     })
     // publish
