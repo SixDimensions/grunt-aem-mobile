@@ -1,7 +1,7 @@
 {
   "name": "grunt-dps",
   "description": "Grunt automation for Adobe DPS 2015 api tasks.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "homepage": "https://github.com/SixDimensions/grunt-dps",
   "author": {
     "name": "Charlie Wagner",
@@ -31,7 +31,7 @@
     "node-uuid": "^1.4.3",
     "q": "^1.4.1",
     "restler": "^3.3.0",
-    "adobedpsapi-js": "^0.0.4"
+    "adobedpsapi-js": "^0.0.5"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
