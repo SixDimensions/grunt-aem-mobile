@@ -143,7 +143,6 @@ module.exports = function(grunt) {
           deferred.resolve();
         }
         else {
-          console.log(collections);
           for(var i = 0; i < collections.length; i++) {
             if (collections[i] && collections[i].length > 0) {
               __performAddArticleToCollection(collections[i]);  
