@@ -12,6 +12,11 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    globalConfig: {
+      collectionArray: function() {
+        return [',',''];
+      }
+    },
     jshint: {
       all: [
         'Gruntfile.js',
@@ -49,12 +54,16 @@ module.exports = function(grunt) {
           },
           addArticleToCollection: {
             articleName: 'completelynew',
-            collectionName: ['Itineraries', 'topLevelPhoneContent']
+            // collectionName: ['Itineraries', 'topLevelPhoneContent']
+            collectionName: '<%= globalConfig.collectionArray() %>'
           },
           publish: {
             entities: [
+              "collection/",
               "article/completelynew",
-              "collection/Itineraries"
+              "collection/Itineraries",
+              "",
+              "article/"
             ]
           }
         }
