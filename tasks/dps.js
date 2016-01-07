@@ -195,6 +195,41 @@ module.exports = function(grunt) {
       }
       return deferred.promise;
     })
+    // unpublish
+    .then(function() {
+      var deferred = Q.defer();
+      if (typeof options.publish === 'undefined') {
+        deferred.resolve();
+      }
+      else {
+        var entities = options.unpublish.entities;
+        // cut out the junk
+        for (var i = 0; i < entities.length; i++) {
+          if (entities[i]) {
+            entities[i] = entities[i].trim();
+            if (!entities[i] || entities[i].length <= 0) {
+              entities.splice(i,1); i--; continue; // remove
+            }
+            var tmp = entities[i].replace("collection/","").replace("article/","").trim();
+            if (!tmp || tmp.length <= 0) {
+              entities.splice(i,1); i--; continue; // remove
+            }
+          }
+          else {
+            entities.splice(i,1); i--; continue; // remove
+          }
+        }
+        dpsUtils.unpublish(entities, function(result) {
+          if (result.code === 'EntityNotFoundException') {
+            deferred.reject(new Error('Entity was not found'));
+            return;
+          }
+          console.log('Entities '+entities+' were unpublished.');
+          deferred.resolve();
+        });
+      }
+      return deferred.promise;
+    })
     .then(function() {
       done();
     }).catch(function (error) {
