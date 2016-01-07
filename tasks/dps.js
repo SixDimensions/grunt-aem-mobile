@@ -198,7 +198,7 @@ module.exports = function(grunt) {
     // unpublish
     .then(function() {
       var deferred = Q.defer();
-      if (typeof options.publish === 'undefined') {
+      if (typeof options.unpublish === 'undefined') {
         deferred.resolve();
       }
       else {
