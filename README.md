@@ -1,6 +1,6 @@
-# grunt-dps
+# grunt-aem-mobile
 
-> Grunt automation for Adobe DPS 2015 api tasks.
+> Grunt automation for AEM Mobile api tasks.
 
 # This software is currently a work in progress and the API or functionality may change at any time without warning.
 
@@ -10,23 +10,23 @@ This plugin requires Grunt `~0.4.5`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-dps --save-dev
+npm install grunt-aem-mobile --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-dps');
+grunt.loadNpmTasks('grunt-aem-mobile');
 ```
 
-## The "dps" task
+## The "aem-mobile" task
 
 ### Overview
-In your project's Gruntfile, add a section named `dps` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `aem-mobile` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  dps: {
+  'aem-mobile': {
     options: {
       // Task-specific options go here.
     },

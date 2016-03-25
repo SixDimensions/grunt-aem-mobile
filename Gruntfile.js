@@ -1,8 +1,8 @@
 /*
- * grunt-dps
- * https://github.com/SixDimensions/grunt-dps
+ * grunt-aem-mobile
+ * https://github.com/SixDimensions/grunt-aem-mobile
  *
- * Copyright (c) 2015 Charlie Wagner
+ * Copyright (c) 2016 Charlie Wagner
  * Licensed under the MIT license.
  */
 
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
     },
 
     // Configuration to be run (and then tested).
-    dps: {
+    "aem-mobile": {
       options: {
         config: grunt.file.readJSON('credentials.json')
       },
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'dps', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'aem-mobile', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
