@@ -27,11 +27,11 @@
     "test": "grunt test"
   },
   "dependencies": {
+    "aem-mobile-api": "^0.1.1",
     "lodash": "^4.11.0",
-    "node-uuid": "^1.4.3",
     "q": "^1.4.1",
     "restler": "^3.4.0",
-    "aem-mobile-api": "^0.1.1"
+    "uuid": "^3.0.0"
   },
   "files": [
     "test",
